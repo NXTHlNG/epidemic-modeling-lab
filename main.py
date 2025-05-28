@@ -1,11 +1,11 @@
-from flask import Flask, request
+from flask import Flask, render_template, request
 from flask_cors import CORS
 from calc_and_draw import CalculationDrawService
 from calc_and_draw_car import CalculationDrawServiceCar
 from calc_and_draw_hdd import CalculationDrawServiceHdd
 from calc_and_draw_pc import CalculationDrawServicePC
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app, origins="*")
 
 calcS = CalculationDrawService()
@@ -13,6 +13,10 @@ calcS_car = CalculationDrawServiceCar()
 calcS_hdd = CalculationDrawServiceHdd()
 calcS_pc = CalculationDrawServicePC()
 
+
+@app.route("/")
+def index():
+    return render_template("index.html") 
 
 @app.route('/check')
 def check():

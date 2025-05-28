@@ -60,6 +60,7 @@ window.addEventListener("DOMContentLoaded", function () {
     postDataButton.onclick = () => {
         // fillBoundariesTable();
         postDataButton.disabled = true
+        document.getElementById("loader").style.display = "block";
         let body = convertDataToJson(varBlock, funcBlock)
         localStorage.setItem("jsonData1", body)
         postData("http://127.0.0.1:9090/calcAndDraw", body,
@@ -69,16 +70,18 @@ window.addEventListener("DOMContentLoaded", function () {
                 });
             },
             () => { },
-            () => postDataButton.disabled = false)
+            () => {
+                document.getElementById("loader").style.display = "none";
+                postDataButton.disabled = false
+            })
     }
 
     fillRandomButton.onclick = async () => {
-        console.log("here")
         const minValueStep = -0.001;
         const startValueStep = 0.05;
         var triesCount = 0;
         const maxTriesCount = 200;
-
+        document.getElementById("loader").style.display = "block";
         randomizeRow = (inputs) => {
             console.log(inputs);
             const minValueInput = inputs[2];
@@ -130,6 +133,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
         await checkByServer();
         // fillBoundariesTable();
+        document.getElementById("loader").style.display = "none";
     }
 });
 

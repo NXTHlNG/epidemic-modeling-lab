@@ -88,14 +88,17 @@ th {
 
 .central {
     display: flex;
-    flex-direction: row; /* ← СТАЛО! Блоки идут слева направо */
+    flex-direction: row;
+    /* ← СТАЛО! Блоки идут слева направо */
     justify-content: space-evenly;
     align-items: flex-start;
-    flex-wrap: wrap; /* На случай узких экранов */
-    gap: 40px; /* Отступ между колонками */
+    flex-wrap: wrap;
+    /* На случай узких экранов */
+    gap: 40px;
+    /* Отступ между колонками */
 }
 
-.central > * {
+.central>* {
     width: 100%;
     max-width: 750px;
 }
@@ -201,6 +204,11 @@ button:hover {
     grid-template-columns: repeat(2, 1fr)
 }
 
-.plot-group > .plot {
+.plot-group>.plot {
     max-height: 50vh;
+}
+
+.loader {
+    font-size: 24px;
+    text-align: center;
 }

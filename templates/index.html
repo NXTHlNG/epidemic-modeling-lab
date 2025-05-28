@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Функции и Переменные</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/styles.css"> <!-- Подключаем CSS файл -->
+</head>
+
+<body id="body">
+    <header>
+        <h1>Эпидемия</h1>
+    </header>
+
+    <div class="container central" id="main"></div>
+    <div class="container central" id="main">
+        <div class="inline-container">
+            <button id="saveJsonButton">Сохранить JSON</button>
+            <button id="loadJsonButton">Загрузить JSON</button>
+            <button id="postDataButton">Рассчитать</button>
+            <button id="fillRandomButton">Заполнить случайными значениями</button>
+        </div>
+    </div>
+    <div class="container central" id="main">
+        <div id="loader" style="display:none; font-size: 24px; text-align: center;">🔄 Расчёт...</div>
+    </div>
+
+    <div id="imageGallery">
+        <h2 style="text-align: center;">Результаты</h2>
+        <div class="image-grid">
+            <img class="plot" src="../static/images/plot.png" alt="Image 1">
+            <div class="plot-group">
+                <img class="plot" src="../static/images/0petal_plot.png" alt="Image 2">
+                <img class="plot" src="../static/images/12petal_plot.png" alt="Image 3">
+                <img class="plot" src="../static/images/24petal_plot.png" alt="Image 4">
+                <img class="plot" src="../static/images/36petal_plot.png" alt="Image 5">
+                <img class="plot" src="../static/images/48petal_plot.png" alt="Image 6">
+            </div>
+        </div>
+    </div>
+    <script src="../static/scripts/lib.js"></script>
+    <script src="../static/scripts/script1.js"></script>
+</body>
+
+</html>

@@ -108,7 +108,7 @@ class CalculationDrawService:
                          arrowprops=None, fontsize=10, color="black")
         plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)  # Отображение легенды
         plt.tight_layout(pad=0.1, w_pad=2)
-        plt.savefig("images/" + save_path)  # Сохранение графика как изображение
+        plt.savefig("./static/images/" + save_path)  # Сохранение графика как изображение
         plt.clf()  # Очистка текущей фигуры
 
     def __draw_petal_plots(self, graph_title: float, stats: list, max_values: list):
@@ -148,7 +148,7 @@ class CalculationDrawService:
                 stats=Y[i, :],
                 max_values=max_values
             )
-            plt.savefig("images/" + str(i) + "petal_plot.png")  # Сохранение каждого графика
+            plt.savefig("./static/images/" + str(i) + "petal_plot.png")  # Сохранение каждого графика
 
             graph_counter += 1
             graph_title += 0.25  # Увеличение заголовка графика для каждого графика
