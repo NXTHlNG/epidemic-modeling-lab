@@ -63,7 +63,7 @@ window.addEventListener("DOMContentLoaded", function () {
         document.getElementById("loader").style.display = "block";
         let body = convertDataToJson(varBlock, funcBlock)
         localStorage.setItem("jsonData1", body)
-        postData("https://nxthing.pythonanywhere.com/calcAndDraw", body,
+        postData("http://127.0.0.1:9090/calcAndDraw", body,
             () => {
                 document.querySelectorAll('#imageGallery .plot').forEach(img => {
                     img.src += '?t=' + new Date().getTime();
@@ -111,7 +111,7 @@ window.addEventListener("DOMContentLoaded", function () {
             triesCount++;
             let body = convertDataToJson(varBlock, funcBlock)
             localStorage.setItem("jsonData3", body)
-            const res = await fetch(new Request("https://nxthing.pythonanywhere.com/calcAndDraw", {
+            const res = await fetch(new Request("http://127.0.0.1:9090/calcAndDraw", {
                 method: "POST",
                 body: body,
                 headers: {

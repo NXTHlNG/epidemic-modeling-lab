@@ -85,15 +85,67 @@ class CalculationDrawService:
         return [dL1_dx, dL2_dx, dL3_dx, dL4_dx, dL5_dx, dL6_dx, dL7_dx, dL8_dx, dL9_dx, dL10_dx, dL11_dx, dL12_dx,
                 dL13_dx, dL14_dx, dL15_dx]
 
+    def __approximate_functions(self, X, Y):
+        """Аппроксимация функций полиномами и создание текстового представления"""
+        approximations = []
+        
+        for i in range(min(15, Y.shape[1])):  # Для каждой переменной
+            # Полиномиальная аппроксимация степени 3
+            coeffs = np.polyfit(X, Y[:, i], deg=3)
+            
+            # Создание текстового представления функции
+            variable_name = f"L{i+1}"
+            terms = []
+            
+            for j, coeff in enumerate(coeffs):
+                power = len(coeffs) - j - 1
+                if abs(coeff) < 1e-6:  # Игнорируем очень маленькие коэффициенты
+                    continue
+                    
+                coeff_str = f"{coeff:.4f}" if coeff >= 0 else f"{coeff:.4f}"
+                
+                if power == 0:
+                    terms.append(coeff_str)
+                elif power == 1:
+                    if coeff == 1:
+                        terms.append("t")
+                    elif coeff == -1:
+                        terms.append("-t")
+                    else:
+                        terms.append(f"{coeff_str}*t")
+                else:
+                    if coeff == 1:
+                        terms.append(f"t^{power}")
+                    elif coeff == -1:
+                        terms.append(f"-t^{power}")
+                    else:
+                        terms.append(f"{coeff_str}*t^{power}")
+            
+            # Соединяем термы со знаками
+            if terms:
+                function_str = f"{variable_name}(t) = {terms[0]}"
+                for term in terms[1:]:
+                    if term.startswith("-"):
+                        function_str += f" {term}"
+                    else:
+                        function_str += f" + {term}"
+                approximations.append(function_str)
+            else:
+                approximations.append(f"{variable_name}(t) = 0")
+                
+        return approximations
+
     def save_plot(self, X, Y):
         # Сохранение графика рассчитанных значений
         save_path = "plot.png"
-        # Добавляем легенду
-
-        plt.rcParams["figure.figsize"] = (15, 8)
+        
+        # Создаем фигуру с дополнительным пространством для текста
+        plt.rcParams["figure.figsize"] = (15, 12)
+        
+        # Создаем подграфик для основного графика
+        plt.subplot(2, 1, 1)
         plt.xlabel("Время")  # Подпись оси X
         plt.ylabel("Значения параметров модели")  # Подпись оси Y
-        # plt.set_title('График времени')
         plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.8)
 
         colors = cm.tab20(np.linspace(0, 1, 14))
@@ -107,6 +159,20 @@ class CalculationDrawService:
             plt.annotate(Constants.VARIABLES_DESCRIPTION[str(i + 1)]['variable_title'].split()[0], xy=(line_x[-1], line_y[-1] + 0.02), xytext=(line_x[-1], line_y[-1]),
                          arrowprops=None, fontsize=10, color="black")
         plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)  # Отображение легенды
+        
+        # Получаем аппроксимации функций
+        approximations = self.__approximate_functions(X, Y)
+        
+        # Создаем подграфик для текста с формулами
+        plt.subplot(2, 1, 2)
+        plt.axis('off')  # Убираем оси для текстового блока
+        
+        # Добавляем заголовок и формулы в одну колонку
+        full_text = "Аппроксимированные функции:\n\n" + "\n".join(approximations)
+        plt.text(0.05, 0.95, full_text, transform=plt.gca().transAxes, 
+                fontsize=14, verticalalignment='top', fontfamily='monospace',
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.5))
+        
         plt.tight_layout(pad=0.1, w_pad=2)
         plt.savefig("./static/images/" + save_path)  # Сохранение графика как изображение
         plt.clf()  # Очистка текущей фигуры
