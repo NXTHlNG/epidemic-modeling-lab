@@ -24,8 +24,8 @@ def calc_and_draw():
     try:
         X, Y = calcS.calculate(content)
     except ValueError as e:
-        # Не прошло проверку на min_values
-        return {"error": f"Invalid data: {str(e)}"}, 400  
+        # Не прошло проверку на min_values или max_values
+        return {"error": f"Validation failed: {str(e)}"}, 400  
 
     # Отрисовка графиков
     path1 = calcS.save_plot(X, Y)

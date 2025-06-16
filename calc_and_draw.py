@@ -16,8 +16,15 @@ class CalculationDrawService:
         # Инициализация полиномиальных функций и расчет Y и X
         self.functions = self.initFunctions(coefs["coef"])
         Y, X = self.__calculate(data=coefs)
+        
+        # Проверка на минимальные значения
         if np.any(Y < coefs["min_values"]):  
                 raise ValueError("Some elements of Y are below the corresponding elements of min_values")
+        
+        # Проверка на максимальные значения
+        if np.any(Y > coefs["max_values"]):  
+                raise ValueError("Some elements of Y are above the corresponding elements of max_values")
+        
         return X, Y
 
     def initFunctions(self, coefs):
@@ -41,10 +48,10 @@ class CalculationDrawService:
                 data["start"],
                 X
             )
-            for normalize_row in range(len(Y)):
-                for normalize_column in range(len(Y[normalize_row])):
-                    if Y[normalize_row][normalize_column] < 0.0:
-                        Y[normalize_row][normalize_column] = 0.0
+            # for normalize_row in range(len(Y)):
+            #     for normalize_column in range(len(Y[normalize_row])):
+            #         if Y[normalize_row][normalize_column] < 0.0:
+            #             Y[normalize_row][normalize_column] = 0.0
         return Y, X
 
     def __describe_difference_equations(self, u, t):
